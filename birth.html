@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise 🎂</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #17002b, #4b0082, #ff4d8d);
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    text-align: center;
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    padding: 35px 20px;
+    border: 1px solid #ffffff55;
+    border-radius: 25px;
+    background: #ffffff12;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 35px #ff69b455;
+    z-index: 2;
+}
+
+h1 {
+    font-size: clamp(28px, 7vw, 45px);
+    color: #ffe66d;
+    text-shadow: 0 0 20px #ff69b4;
+}
+
+.subtitle {
+    margin: 15px 0 25px;
+    font-size: 17px;
+}
+
+.cake {
+    font-size: 100px;
+    animation: bounce 2s infinite;
+    filter: drop-shadow(0 0 15px #ff69b4);
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+button {
+    padding: 14px 25px;
+    margin: 12px 5px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(45deg, #ff4d8d, #ffbd69);
+    color: #350027;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 0 15px #ff69b4;
+}
+
+button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 30px #ff69b4;
+}
+
+#surprise {
+    display: none;
+    margin-top: 25px;
+    animation: appear 1s ease;
+}
+
+#surprise h2 {
+    color: #ffe66d;
+    margin-bottom: 12px;
+}
+
+#surprise p {
+    line-height: 1.8;
+    font-size: 17px;
+}
+
+.gift {
+    font-size: 75px;
+    cursor: pointer;
+    animation: shake 1.5s infinite;
+}
+
+@keyframes shake {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-8deg); }
+    75% { transform: rotate(8deg); }
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.floating {
+    position: fixed;
+    bottom: -80px;
+    font-size: 35px;
+    animation: floatUp 8s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    to {
+        transform: translateY(-120vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+#confetti {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+}
+/* Popup background */
+.popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 0, 20, 0.85);
+    backdrop-filter: blur(10px);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 15px;
+}
+
+/* Popup card */
+.popup-card {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    background: linear-gradient(145deg, #fff0f6, #ffe0ed);
+    border: 3px solid #ff4d8d;
+    border-radius: 25px;
+    padding: 25px 18px;
+    text-align: center;
+    color: #570044;
+    box-shadow: 0 0 40px #ff4d8d;
+    animation: popupAppear 0.6s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.popup-card h2 {
+    color: #e60073;
+    margin: 15px 0;
+    font-size: clamp(22px, 5vw, 30px);
+}
+
+.popup-card p {
+    font-size: 16px;
+    line-height: 1.7;
+    margin: 12px 0;
+}
+
+/* Birthday image */
+.birthday-image {
+    width: 100%;
+    max-width: 400px;
+    max-height: 45vh;
+    object-fit: contain;
+    border-radius: 18px;
+    border: 3px solid white;
+    box-shadow: 0 0 25px #ff69b4;
+}
+
+/* Close button */
+.close-popup {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: #ff2878;
+    color: white;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    padding: 0;
+    margin: 0;
+    font-size: 24px;
+    box-shadow: none;
+}
+
+/* Animation */
+@keyframes popupAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.6);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="container">
+    <h2>🎂Happy Birthday Akshu!♥️🎉</h2>
+
+    <p class="subtitle">
+        Someone special deserves something magical... 💖
+    </p>
+
+    <div class="cake">🎂</div>
+
+    <p>Today is all about YOU! ✨</p>
+
+    <button onclick="openSurprise()">
+        🎁 Open Your Surprise
+    </button>
+
+    <div id="surprise">
+        <div class="gift">💝</div>
+
+        <h2>A Little Gift for You ❤️</h2>
+
+        <p id="message">
+            You make the world brighter just by being in it.
+            May your birthday bring endless happiness,
+            beautiful memories, and dreams that come true! 🌟
+            <br><br>
+            Keep smiling, keep shining, and never stop being amazing.
+            You deserve all the happiness in the universe! 💕
+            <br><br>
+            🎂 Happy Birthday, Akshaya! 🎂
+        </p>
+
+        <button onclick="celebrate()">🎊 Celebrate!</button>
+    </div>
+</div>
+<!-- Birthday Image Popup -->
+<div class="popup-overlay" id="birthdayPopup">
+
+    <div class="popup-card">
+
+        <button class="close-popup"
+                onclick="closeBirthdayPopup()"
+                aria-label="Close popup">&times;</button>
+
+        <h2>🎂 Happy Birthday, Akshu! ❤️</h2>
+
+        <img src="aksh2.jpeg"
+             alt="Birthday surprise for Akshu"
+             class="birthday-image">
+
+        <p>
+            💖 You are someone truly special! 💖<br>
+            May your life be filled with love,
+            happiness, and beautiful memories.
+        </p>
+
+    
+
+    </div>
+</div>
+<script>
+const emojis = ["🎈", "💖", "✨", "🎉", "⭐"];
+
+function createFloatingEmoji() {
+    const item = document.createElement("div");
+    item.className = "floating";
+    item.textContent =
+        emojis[Math.floor(Math.random() * emojis.length)];
+
+    item.style.left = Math.random() * 100 + "vw";
+    item.style.animationDuration = (5 + Math.random() * 5) + "s";
+
+    document.body.appendChild(item);
+
+    setTimeout(() => item.remove(), 10000);
+}
+
+setInterval(createFloatingEmoji, 500);
+
+function openSurprise() {
+    document.getElementById("surprise").style.display = "block";
+    document.querySelector("button").style.display = "none";
+    celebrate();
+}
+
+function celebrate() {
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const pieces = Array.from({length: 180}, () => ({
+        x: Math.random() * canvas.width,
+        y: -Math.random() * canvas.height,
+        size: 4 + Math.random() * 6,
+        speed: 2 + Math.random() * 5,
+        drift: Math.random() * 3 - 1.5,
+        color: `hsl(${Math.random() * 360}, 100%, 65%)`
+    }));
+
+    let frame = 0;
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        pieces.forEach(p => {
+            ctx.fillStyle = p.color;
+            ctx.fillRect(p.x, p.y, p.size, p.size);
+            p.y += p.speed;
+            p.x += p.drift;
+
+            if (p.y > canvas.height) {
+                p.y = -10;
+                p.x = Math.random() * canvas.width;
+            }
+        });
+
+        frame++;
+
+        if (frame < 150) {
+            requestAnimationFrame(draw);
+        } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    }
+
+    draw();
+}
+
+window.addEventListener("resize", () => {
+    const canvas = document.getElementById("confetti");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+function openSurprise() {
+    document.getElementById("birthdayPopup").style.display = "flex";
+    celebrate();
+}
+
+function closeBirthdayPopup() {
+    document.getElementById("birthdayPopup").style.display = "none";
+}
+
+// Close popup when clicking outside the card
+document.getElementById("birthdayPopup").addEventListener("click", function(e) {
+    if (e.target === this) {
+        closeBirthdayPopup();
+    }
+});
+</script>
+
+</body>
+</html>
